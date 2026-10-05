@@ -1,0 +1,130 @@
+# =========================================================
+# .gitignore — Sistema Compra-Venta
+# Cubre: .NET Framework 4.8 (WinForms, SisCV 1.00)
+#        .NET 10 / Avalonia 12 (SisCV 2.00)
+#        Visual Studio Code, Visual Studio, Rider
+# =========================================================
+
+# ---------- Visual Studio Code ----------
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!.vscode/*.code-workspace
+!*.code-workspace
+*.vsix
+
+# ---------- .NET / Visual Studio / Rider (build outputs) ----------
+bin/
+obj/
+out/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.userprefs
+.vs/
+.idea/
+*.swp
+*~
+
+# ---------- Ensamblados y símbolos generados ----------
+*.dll
+*.pdb
+*.exe
+*.exe.config
+*.exe.manifest
+*.application
+*.appref-ms
+*.deploy
+*.deps.json
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+*.staticwebassets.xml
+
+# ---------- Cachés de compilación / MSBuild / NuGet ----------
+*.cache
+*.assets.cache
+*.csproj.AssemblyReference.cache
+*.csproj.CoreCompileInputs.cache
+*.csproj.FileListAbsolute.txt
+*.csproj.CopyComplete
+*.csproj.Up2Date
+*.csproj.GenerateResource.cache
+*.csproj.StyleCSharp.cache
+*.GeneratedMSBuildEditorConfig.editorconfig
+project.assets.json
+project.nuget.cache
+project.nuget.dgspec.json
+*.nuget.g.props
+*.nuget.g.targets
+*.nuget.dgspec.json
+*.AssemblyInfoInputs.cache
+*.AssemblyInfo.cs
+apphost.exe
+
+# ---------- NuGet ----------
+packages/
+*.nupkg
+*.snupkg
+*.signature.p7s
+.nuget/
+TestResult.xml
+coverage*.xml
+coverage*.json
+
+# ---------- Bases de datos locales / archivos binarios pesados ----------
+*.mdf
+*.ldf
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+
+# ---------- ReportViewer / RDLC compile cache ----------
+RdlCompile.cache
+RdlCompile.compiled
+TempPE/
+SqlServerTypes/
+
+# ---------- Instaladores / Setup ----------
+*.msi
+*.msix
+*.msixbundle
+*.appx
+*.appxbundle
+*.appxupload
+setup.exe
+
+# ---------- Avalonia / XAML / QuestPDF ----------
+[Aa]valonia[Aa]ssets.cache
+[Aa]valonia/[Rr]esources*
+Avalonia/references
+Avalonia/Resources.Inputs.cache
+*.axaml.bin
+
+# ---------- Logs y archivos temporales ----------
+*.log
+*.tmp
+[Dd]ebug.log
+*.tlog
+
+# ---------- OS noise ----------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+$RECYCLE.BIN/
+Desktop.ini
+
+# ---------- User-specific ----------
+*.crunchsolution
+*.sw?
+
+# ---------- Archivos varios ----------
+/CambiosR.txt
