@@ -169,7 +169,7 @@ public class Clien(MyContexts _Contexts) : IClien
             (Boolean VD, String VM) = await Verifi(_Clien, true);
             if (VD) return (false, VM);
 
-            Boolean NonExis = await Contexts.TCUso.AsNoTracking().AnyAsync(E => E.ID == _Clien.ID);
+            Boolean NonExis = await Contexts.TClie.AsNoTracking().AnyAsync(E => E.ID == _Clien.ID);
             if (!NonExis) return (false, "Operación cancelada: Este cliente/propietario no existe");
 
             Contexts.TClie.Update(_Clien);

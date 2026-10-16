@@ -196,7 +196,7 @@ public class Medid(MyContexts _Contexts) : IMedid
             Boolean NonExis = await Contexts.TMedi.AsNoTracking().AnyAsync(E => E.ID == _ID);
             if (!NonExis) return (false, "Operación cancelada: Este medidor no existe");
 
-            Boolean D = await Contexts.TClie.Where(E => E.ID == _ID).ExecuteDeleteAsync() > 0;
+            Boolean D = await Contexts.TMedi.Where(E => E.ID == _ID).ExecuteDeleteAsync() > 0;
 
             if (D) return (true, "Medidor eliminado");
             else return (false, "Algo salió mal: Los datos no se eliminaron");
