@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <!-- Propiedades generales -->
+    <PropertyGroup>
+        
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyTitle>Energía Recargable Registro | Librería</AssemblyTitle>
+        <Product>Energía Recargable: Registro | Librería</Product>
+        <Version>1.0.0.0</Version>
+        <Authors>Alexander Pacheco Jimenez</Authors>
+        <Copyright>MIT License</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Description>Librería backend para Energía Recargable: Registro</Description>
+        <RepositoryUrl>https://github.com/AlexanderPJ-1996/EnergiaR</RepositoryUrl>
+        
+    </PropertyGroup>
+    
+    <!-- Librerías/componentes de terceros -->
+    <ItemGroup>
+        
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.13" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.13" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.13">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        
+    </ItemGroup>
+    
+    <!-- Proyectos referenciados o dependencias -->
+    <ItemGroup>
+        
+        <EmbeddedResource Include="EnergiaRDB.sql" />
+        
+        <ProjectReference Include="..\EnergiaR.DTO\EnergiaR.DTO.csproj">
+            <SetTargetFramework>TargetFramework=net10.0</SetTargetFramework>
+        </ProjectReference>
+        
+    </ItemGroup>
+    
+</Project>

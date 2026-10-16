@@ -1,1 +1,4 @@
-<Solution />
+<Solution>
+  <Project Path="EnergiaR.DTO/EnergiaR.DTO.csproj" Id="78163418-5895-471e-ba50-5b8a01cbf1f5" />
+  <Project Path="EnergiaR.ORM/EnergiaR.ORM.csproj" Id="f155ecf4-ca03-466b-bc54-2d6ea15afc30" />
+</Solution>
