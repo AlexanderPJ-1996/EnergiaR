@@ -6,6 +6,8 @@ namespace EnergiaR.ORM;
 // DbContext de backend
 public partial class MyContexts : DbContext
 {
+    readonly String PathApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
     public MyContexts()
     {
     }
@@ -14,7 +16,6 @@ public partial class MyContexts : DbContext
     {
     }
 
-    public virtual DbSet<THistory> History { get; set; }
     public virtual DbSet<TEmpre> TEmpr { get; set; }
     public virtual DbSet<TCaUso> TCUso { get; set; }
     public virtual DbSet<TClien> TClie { get; set; }
@@ -24,26 +25,11 @@ public partial class MyContexts : DbContext
     public virtual DbSet<TRecar> TReca { get; set; }
     public virtual DbSet<VRecar> VReca { get; set; }
     
-    protected override void OnConfiguring(DbContextOptionsBuilder OB) 
-        => OB.UseSqlite("Data Source=EnergiaRDB.db");
+    protected override void OnConfiguring(DbContextOptionsBuilder OB)
+        => OB.UseSqlite($"Data Source={Path.Combine(PathApp, "EnergiaRDB.db")}");
 
     protected override void OnModelCreating(ModelBuilder MB)
     {
-        // Historial de operaciones
-        MB.Entity<THistory>(En =>
-        {
-            En.ToTable("THistory");
-            En.Property(E => E.ID).HasColumnName("ID");
-            En.Property(E => E.Tabl).UseCollation("NOCASE").HasColumnName("Tabl");
-            En.Property(E => E.Oper).UseCollation("NOCASE").HasColumnName("Oper");
-            En.Property(E => E.FHRe).
-                HasDefaultValueSql("DATETIME('now', 'localtime')").
-                HasColumnType("DATETIME").
-                HasColumnName("FHRe");
-            En.Property(E => E.RPre).UseCollation("NOCASE").HasColumnName("RPre");
-            En.Property(E => E.RPos).UseCollation("NOCASE").HasColumnName("RPos");
-        });
-
         // Empresas prestadoras de servicio de energía
         MB.Entity<TEmpre>(En =>
         {

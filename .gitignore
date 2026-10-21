@@ -1,8 +1,8 @@
 # =========================================================
-# .gitignore — Sistema Compra-Venta
+# .gitignore — Sistema Compra-Venta (Unificado)
 # Cubre: .NET Framework 4.8 (WinForms, SisCV 1.00)
 #        .NET 10 / Avalonia 12 (SisCV 2.00)
-#        Visual Studio Code, Visual Studio, Rider
+#        Visual Studio Code, Visual Studio, Rider (Multiplataforma)
 # =========================================================
 
 # ---------- Visual Studio Code ----------
@@ -22,16 +22,28 @@ obj/
 out/
 [Bb]uild/
 [Dd]ebug/
+[Dd]ebugPublic/
 [Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Ll]og/
+[Ll]ogs/
 *.user
 *.userosscache
 *.suo
 *.sln.docstates
 *.userprefs
 .vs/
+# JetBrains Rider / ReSharper
 .idea/
-*.swp
-*~
+*.sln.iml
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
 
 # ---------- Ensamblados y símbolos generados ----------
 *.dll
@@ -67,6 +79,8 @@ project.nuget.dgspec.json
 *.AssemblyInfoInputs.cache
 *.AssemblyInfo.cs
 apphost.exe
+# MSBuild Binary Logs (Muy útil para depurar errores de compilación)
+*.binlog
 
 # ---------- NuGet ----------
 packages/
@@ -74,32 +88,59 @@ packages/
 *.snupkg
 *.signature.p7s
 .nuget/
+artifacts/
+
+# ---------- Testing, Benchmarking y Code Coverage ----------
 TestResult.xml
+nunit-*.xml
+BenchmarkDotNet.Artifacts/
+# Code Coverage
+*.dotCover
+*.coverage
+*.coveragexml
 coverage*.xml
 coverage*.json
+coverage*.info
+.axoCover/*
+!.axoCover/settings.json
 
 # ---------- Bases de datos locales / archivos binarios pesados ----------
 *.mdf
 *.ldf
+*.ndf
 *.db
 *.db-shm
 *.db-wal
 *.sqlite
 
-# ---------- ReportViewer / RDLC compile cache ----------
+# ---------- ReportViewer / RDLC / Business Intelligence ----------
 RdlCompile.cache
 RdlCompile.compiled
 TempPE/
 SqlServerTypes/
+*.rdl.data
+*.bim.layout
+*.bim_*.settings
+*.rptproj.rsuser
+*- [Bb]ackup.rdl
+*- [Bb]ackup ([0-9]).rdl
+*- [Bb]ackup ([0-9][0-9]).rdl
 
-# ---------- Instaladores / Setup ----------
+# ---------- Instaladores / Setup / Windows Store ----------
 *.msi
 *.msix
 *.msixbundle
+*.msm
+*.msp
+*.cab
 *.appx
 *.appxbundle
 *.appxupload
 setup.exe
+publish/
+*.pubxml
+*.publishproj
+PublishScripts/
 
 # ---------- Avalonia / XAML / QuestPDF ----------
 [Aa]valonia[Aa]ssets.cache
@@ -114,17 +155,42 @@ Avalonia/Resources.Inputs.cache
 [Dd]ebug.log
 *.tlog
 
-# ---------- OS noise ----------
+# ---------- OS noise: macOS (Multiplataforma) ----------
 .DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ---------- OS noise: Windows ----------
 Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db
 $RECYCLE.BIN/
 Desktop.ini
+*.stackdump
+*.lnk
 
-# ---------- User-specific ----------
+# ---------- User-specific / Varios ----------
 *.crunchsolution
 *.sw?
-
-# ---------- Archivos varios ----------
+*.pfx
+*.publishsettings
 /CambiosR.txt
+
+# ---------- Herramientas de terceros (Node/Python si se usan scripts) ----------
+node_modules/
+__pycache__/
+*.pyc

@@ -1,7 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using EnergiaR.ORM.Xtra;
+using EnergiaR.Fls;
+using System.Reflection;
 
 namespace EnergiaR.ORM;
 
@@ -18,9 +19,11 @@ public static class Conn
         {
             await using SqliteConnection Conn = new(CadenaDB);
             await Conn.OpenAsync();
-            await ExecuteSQL(Conn);
+            (Boolean D, String M) = await ExecuteSQL(Conn);
             await Conn.CloseAsync();
-            return (true, String.Empty);
+
+            if (D) return (true, String.Empty);
+            else return (false, "Base de datos o estructura inaccesible");
         }
         catch (SqliteException ex)
         {
@@ -33,22 +36,24 @@ public static class Conn
     }
 
     // Crear tablas, vistas y disparadores
-    static async Task ExecuteSQL(SqliteConnection Conn)
+    static async Task<(Boolean Done, String Mess)> ExecuteSQL(SqliteConnection Conn)
     {
-        String SQL = await UseFiles.TextFile("EnergiaRDB.sql");
+        String SQL = await UseFiles.TextFile("EnergiaRDB.sql", Assembly.GetExecutingAssembly());
 
-        if (String.IsNullOrWhiteSpace(SQL)) return;
+        if (SQL is null || String.IsNullOrWhiteSpace(SQL))
+            return (false, "No fue posible acceder a la estructura de la base de datos");
 
         await using SqliteCommand CMD = new(SQL, Conn);
         await CMD.ExecuteNonQueryAsync();
+        return (true, String.Empty);
     }
     #endregion
 
     #region Servicio para iniciar Backend
     public static IServiceCollection DBServices(this IServiceCollection Servicio, String CadenaDB)
     {
-        if (String.IsNullOrWhiteSpace(CadenaDB) || !File.Exists(CadenaDB))
-            throw new InvalidOperationException("Servicio no registrado por valor nulo o vacío");
+        if (String.IsNullOrWhiteSpace(CadenaDB))
+            throw new InvalidOperationException("Cadena de conexión vacía o inválida");
 
         // Registrar el DbContext con SQLite
         Servicio.AddDbContext<MyContexts>(Op =>

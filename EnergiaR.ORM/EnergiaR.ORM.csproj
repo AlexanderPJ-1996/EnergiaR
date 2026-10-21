@@ -38,6 +38,10 @@
             <SetTargetFramework>TargetFramework=net10.0</SetTargetFramework>
         </ProjectReference>
         
+        <ProjectReference Include="..\EnergiaR.Fls\EnergiaR.Fls.csproj">
+            <SetTargetFramework>TargetFramework=net10.0</SetTargetFramework>
+        </ProjectReference>
+        
     </ItemGroup>
     
 </Project>
