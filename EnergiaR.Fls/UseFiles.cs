@@ -14,45 +14,45 @@ public static class UseFiles
     public static async Task<String> TextFile(String NFile, Assembly? MyAssembly = null)
     {
         if (String.IsNullOrWhiteSpace(NFile)) return String.Empty;
-
+        
         Assembly Asse = MyAssembly ?? Assembly.GetExecutingAssembly();
-
+        
         String? NF = Asse.GetManifestResourceNames().
             FirstOrDefault(N => N.EndsWith($".{NFile}", StringComparison.OrdinalIgnoreCase));
-
+        
         if (NF is null) return String.Empty;
-
+        
         using Stream? S = Asse.GetManifestResourceStream(NF);
         if (S is null) return String.Empty;
         using StreamReader SR = new(S, Encoding.UTF8);
         return await SR.ReadToEndAsync();
     }
-
+    
     // Cargar carpeta de lectura de la aplicación
     public static String PathBase()
     {
         return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EnergiaR"); 
     }
-
+    
     // Carpetas para la aplicación
     public static String[] PathApps { get; } =
     [
-        "Empre",
+        "Empre", 
     ];
-
+    
     // Crear carpetas
     public static async Task<(Boolean Done, String Mess)> MakePath()
     {
         try
         {
             if (!Directory.Exists(PathBase())) Directory.CreateDirectory(PathBase());
-
+            
             foreach (String P in PathApps)
             {
                 String F = Path.Combine(PathBase(), P);
                 if (!Directory.Exists(F)) Directory.CreateDirectory(F);
             }
-
+            
             return (true, String.Empty);
         }
         catch (ArgumentNullException ex)
@@ -89,18 +89,18 @@ public static class UseFiles
         }
     }
     #endregion
-
+    
     #region Registrar Exception en archivo .json
     private static readonly Lock LogL = new();
 
     static async Task SaveLogs(String UserMsg, Int32 Code, String Message, String StackTrace)
     {
         String NFile = Path.Combine(PathBase(), "What's Happened.json");
-
+        
         lock (LogL)
         {
             JsonObject Root = [];
-
+            
             if (File.Exists(NFile))
             {
                 try
@@ -116,9 +116,9 @@ public static class UseFiles
             {
                 Root = [];
             }
-
+            
             String FHRe = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
+            
             Root[FHRe] = new JsonObject()
             {
                 ["Show"] = UserMsg,
@@ -126,14 +126,14 @@ public static class UseFiles
                 ["Message"] = Message,
                 ["StackTrace"] = StackTrace
             };
-
+            
             JsonObject Ord = [];
-
+            
             foreach (var KV in Root.OrderByDescending(K => K.Key))
             {
                 Ord[KV.Key] = KV.Value?.DeepClone();
             }
-
+            
             JsonSerializerOptions Opts = new() { WriteIndented = true };
             File.WriteAllTextAsync(NFile, Ord.ToJsonString(Opts));
         }

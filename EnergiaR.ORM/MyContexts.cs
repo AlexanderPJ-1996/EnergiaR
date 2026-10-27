@@ -1,21 +1,26 @@
-﻿using EnergiaR.DTO;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using EnergiaR.DTO;
+using EnergiaR.Fls;
 
 namespace EnergiaR.ORM;
 
 // DbContext de backend
 public partial class MyContexts : DbContext
 {
-    readonly String PathApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
+    // Retornar ConnectionString de base de datos
+    static String CadenaDB()
+    {
+        return $"Data Source={Path.Combine(UseFiles.PathBase(), "EnergiaRDB.db")}";
+    }
+    
     public MyContexts()
     {
     }
-
+    
     public MyContexts(DbContextOptions<MyContexts> Opts) : base(Opts)
     {
     }
-
+    
     public virtual DbSet<TEmpre> TEmpr { get; set; }
     public virtual DbSet<TCaUso> TCUso { get; set; }
     public virtual DbSet<TClien> TClie { get; set; }
@@ -25,9 +30,8 @@ public partial class MyContexts : DbContext
     public virtual DbSet<TRecar> TReca { get; set; }
     public virtual DbSet<VRecar> VReca { get; set; }
     
-    protected override void OnConfiguring(DbContextOptionsBuilder OB)
-        => OB.UseSqlite($"Data Source={Path.Combine(PathApp, "EnergiaRDB.db")}");
-
+    protected override void OnConfiguring(DbContextOptionsBuilder OB) => OB.UseSqlite(CadenaDB());
+    
     protected override void OnModelCreating(ModelBuilder MB)
     {
         // Empresas prestadoras de servicio de energía
@@ -41,7 +45,7 @@ public partial class MyContexts : DbContext
             En.Property(E => E.Tele).UseCollation("NOCASE").HasColumnName("Tele").HasMaxLength(2500);
             En.Property(E => E.Mail).UseCollation("NOCASE").HasColumnName("Mail").HasMaxLength(2500);
         });
-
+        
         // Medidores: Casos de uso
         MB.Entity<TCaUso>(En =>
         {
@@ -50,7 +54,7 @@ public partial class MyContexts : DbContext
             En.Property(E => E.CUso).UseCollation("NOCASE").HasColumnName("CUso").HasMaxLength(20);
             En.Property(E => E.CDes).UseCollation("NOCASE").HasColumnName("CDes").HasMaxLength(100);
         });
-
+        
         // Medidores Clientes/Propietarios
         MB.Entity<TClien>(En =>
         {
@@ -64,7 +68,7 @@ public partial class MyContexts : DbContext
                 HasColumnType("INTEGER").
                 IsRequired();
         });
-
+        
         // Medidores Clientes/Propietarios | Valores inferidos
         MB.Entity<VClien>(En =>
         {
@@ -75,7 +79,7 @@ public partial class MyContexts : DbContext
             En.Property(E => E.Nomb).UseCollation("NOCASE").HasColumnName("Nomb").HasMaxLength(100);
             En.Property(E => E.Sexo).UseCollation("NOCASE").HasColumnName("Sexo");
         });
-
+        
         // Medidores
         MB.Entity<TMedid>(En =>
         {
@@ -86,18 +90,18 @@ public partial class MyContexts : DbContext
             En.Property(E => E.Dire).UseCollation("NOCASE").HasColumnName("Dire").HasMaxLength(2500);
             En.Property(E => E.CUso).HasColumnName("CUso");
             En.Property(E => E.Prop).HasColumnName("Prop");
-
+            
             En.HasOne(D => D.CaUsoNav).
                 WithMany(P => P.Medid).
                 HasForeignKey(D => D.CUso).
                 OnDelete(DeleteBehavior.Restrict);
-
+                
             En.HasOne(D => D.ClienNav).
                 WithMany(P => P.Medid).
                 HasForeignKey(D => D.Prop).
                 OnDelete(DeleteBehavior.Restrict);
         });
-
+        
         // Medidores | Valores inferidos
         MB.Entity<VMedid>(En =>
         {
@@ -110,7 +114,7 @@ public partial class MyContexts : DbContext
             En.Property(E => E.Docu).UseCollation("NOCASE").HasColumnName("Docu");
             En.Property(E => E.Nomb).UseCollation("NOCASE").HasColumnName("Nomb");
         });
-
+        
         // Recargas
         MB.Entity<TRecar>(En =>
         {
@@ -137,18 +141,18 @@ public partial class MyContexts : DbContext
             En.Property(E => E.Comp).HasColumnName("Comp");
             En.Property(E => E.MesK).HasColumnName("MesK");
             En.Property(E => E.MesS).HasColumnName("MesS");
-
+            
             En.HasOne(D => D.EmpreNav).
                 WithMany(P => P.Recar).
                 HasForeignKey(D => D.Empr).
                 OnDelete(DeleteBehavior.Restrict);
-
+                
             En.HasOne(D => D.MedidNav).
                 WithMany(P => P.Recar).
                 HasForeignKey(D => D.Medi).
                 OnDelete(DeleteBehavior.Restrict);
         });
-
+        
         // Recargas | Valores inferidos
         MB.Entity<VRecar>(En =>
         {
@@ -167,7 +171,7 @@ public partial class MyContexts : DbContext
             En.Property(E => E.Docu).UseCollation("NOCASE").HasColumnName("Docu");
             En.Property(E => E.Nomb).UseCollation("NOCASE").HasColumnName("Nomb");
             En.Property(E => E.PINR).UseCollation("NOCASE").HasColumnName("PINR");
-
+            
             #region Mapeo INTEGER
             En.Property(E => E.IntVRec).HasColumnName("VRec");
             En.Property(E => E.IntAbon).HasColumnName("Abon");
@@ -177,7 +181,7 @@ public partial class MyContexts : DbContext
             En.Property(E => E.IntMesK).HasColumnName("MesK");
             En.Property(E => E.IntMesS).HasColumnName("MesS");
             #endregion
-
+            
             #region Ignorar propiedades calculadas (Decimal)
             En.Ignore(E => E.VRec);
             En.Ignore(E => E.Abon);
@@ -191,9 +195,9 @@ public partial class MyContexts : DbContext
             En.Ignore(E => E.MesS);
             #endregion
         });
-
+        
         OnModelCreatingPartial(MB);
     }
-
+    
     partial void OnModelCreatingPartial(ModelBuilder MB);
 }

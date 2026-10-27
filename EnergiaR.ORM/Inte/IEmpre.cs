@@ -5,7 +5,6 @@ namespace EnergiaR.ORM.Inte;
 // Interface para empresas
 public interface IEmpre
 {
-    Task<IEnumerable<TEmpre>> Load();
     Task<IEnumerable<TEmpre>> Filtered(String _Like);
     Task<TEmpre?> ByID(Int64 _ID);
     Task<(Int64 Done, String Mess)> IDRe(String _NDoc);

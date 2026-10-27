@@ -170,4 +170,18 @@
 
     https://pictogrammers.com/library/mdi/icon/close-circle/
 
-# 
+# broom
+
+> broom by <a href="https://pictogrammers.com/">Pictogrammers</a>
+
+> Pictogrammers Free License
+
+> Estado: Editado
+
+<p align="center">
+    <img src="Imgs/CLimpC.svg" width="150">
+</p>
+
+    https://pictogrammers.com/library/mdi/icon/broom/
+
+#
